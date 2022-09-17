@@ -105,7 +105,7 @@ let createUser = (data) => {
             if (check === true) {
                 resolve({
                     errorCode: 1,
-                    message: "Email already exists in the system !!!"
+                    errorMessage: "Email already exists in the system !!!"
                 })
             }
             else {
