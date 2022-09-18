@@ -172,6 +172,10 @@ let updateUser = (data) => {
                 user.lastName = data.lastName;
                 user.address = data.address;
                 user.phone = data.phone;
+                // -----------
+                user.gender = data.gender;
+                user.roleId = data.roleId;
+                // -----------
                 await user.save();
                 resolve({
                     errorCode: 0,
