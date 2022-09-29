@@ -23,7 +23,7 @@ let handleUserLogin = (email, password) => {
             if (isExist) {
                 let user = await db.User.findOne({
                     where: { email: email },
-                    attributes: [`email`, `roleId`, `password`],
+                    attributes: [`email`, `roleId`, `password`, `firstName`, `lastName`],
                     raw: true
                 });
                 if (user) {
@@ -174,7 +174,7 @@ let updateUser = (data) => {
                 user.phone = data.phone;
                 // -----------
                 user.gender = data.gender;
-                user.roleId = data.roleId;
+                // user.roleId = data.roleId;
                 // -----------
                 await user.save();
                 resolve({
@@ -195,10 +195,36 @@ let updateUser = (data) => {
     })
 }
 
+let getAllKey = (type) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            if (!type) {
+                resolve({
+                    errorCode: 1,
+                    errorMessage: "Missing required parameters !!!"
+                });
+            } else {
+                let res = {};
+                let allKey = await db.Keyword.findAll({
+                    where: { type: type }
+                });
+                res.errorCode = 0;
+                res.data = allKey;
+                resolve(res);
+            }
+
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
 module.exports = {
     handleUserLogin: handleUserLogin,
     getAllUser: getAllUser,
     createUser: createUser,
     updateUser: updateUser,
     deleteUser: deleteUser,
+    getAllKey: getAllKey
 }
