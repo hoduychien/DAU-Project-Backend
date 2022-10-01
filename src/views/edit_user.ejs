@@ -11,37 +11,38 @@
 </head>
 
 <body>
-    <div className"container mx-auto" style="width:500px">
-        <div className"mt-5">
+    <div className="container mx-auto" style="width:500px">
+        <div className="mt-5">
             <form action="/put-crud" method="POST">
-                <h1 className"text-center mb-5">
+                <h1 className="text-center mb-5">
                     Edit profile user: <%=user.id%>
                 </h1>
                 <input type="text" name="id" value="<%=user.id%>" hidden="true">
-                <div className"form-group">
-                    <label for="firstName">FirstName</label>
-                    <input type="text" className"form-control" id="firstName" name="firstName"
+                <div className="form-group">
+                    <label htmlFor="firstName">FirstName</label>
+                    <input type="text" className="form-control" id="firstName" name="firstName"
                         value="<%=user.firstName%>">
                 </div>
-                <div className"form-group ">
-                    <label for=" inputPassword4">LastName</label>
-                    <input type="text" className"form-control" id="password" name="lastName" value="<%=user.lastName%>">
+                <div className="form-group ">
+                    <label htmlFor=" inputPassword4">LastName</label>
+                    <input type="text" className="form-control" id="password" name="lastName"
+                        value="<%=user.lastName%>">
                 </div>
 
-                <div className"form-group">
-                    <label for="address">Address</label>
-                    <input type="text" className"form-control" id="address" name="address" value="<%=user.address%>">
+                <div className="form-group">
+                    <label htmlFor="address">Address</label>
+                    <input type="text" className="form-control" id="address" name="address" value="<%=user.address%>">
                 </div>
-                <div className"form-row">
-                    <div className"form-group col-md-12">
-                        <label for="phone">Phone Number</label>
-                        <input type="text" className"form-control" id="phone" name="phone" value="<%=user.phone%>">
+                <div className="form-row">
+                    <div className="form-group col-md-12">
+                        <label htmlFor="phone">Phone Number</label>
+                        <input type="text" className="form-control" id="phone" name="phone" value="<%=user.phone%>">
                     </div>
 
                 </div>
-                <div className"d-flex w-100 mt-2">
-                    <a href="/" className"btn btn-danger mr-3 w-100">Cancel</a>
-                    <button type="submit" className"btn btn-primary w-100">Update</button>
+                <div className="d-flex w-100 mt-2">
+                    <a href="/" className="btn btn-danger mr-3 w-100">Cancel</a>
+                    <button type="submit" className="btn btn-primary w-100">Update</button>
                 </div>
             </form>
         </div>
