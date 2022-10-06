@@ -1,11 +1,17 @@
 import express from 'express';
 import homeController from '../controllers/homeController';
 import userController from '../controllers/userController';
+import lectureController from '../controllers/lecturerController';
+import courseController from '../controllers/courseController';
+import subjectController from '../controllers/subjectController'
+
 
 let router = express.Router();
 
 let initWebRoutes = (app) => {
     router.get('/', homeController.getCRUDUser);
+
+    // test
     router.get('/crud', homeController.getCRUD);
     router.post('/add-user', homeController.postCRUD);
     router.get('/get-user', homeController.getCRUDUser);
@@ -13,16 +19,31 @@ let initWebRoutes = (app) => {
     router.post('/put-crud', homeController.updateUser);
     router.get('/delete-user', homeController.deleteUser);
 
-
-    // api to frontend
-
+    //users
     router.post('/api/login', userController.handleLogin);
     router.get('/api/get-all-users', userController.handleGetAllUsers);
     router.post('/api/create-user', userController.handleCreateUser);
     router.put('/api/edit-user', userController.handleEditUser);
     router.delete('/api/delete-user', userController.handleDeleteUser);
 
+    // keywords
     router.get('/api/get-key', userController.handleGetKey);
+
+    // lecturers
+    router.get('/api/get-lecturer-list', lectureController.getLecturerList);
+
+    // courses
+    router.get('/api/get-all-courses', courseController.handleGetAllCourses);
+    router.post('/api/create-courses', courseController.handleCreateCourse);
+    router.put('/api/edit-courses', courseController.handleEditCourse);
+    router.delete('/api/delete-courses', courseController.handleDeleteCourse);
+
+    // subject
+    router.get('/api/get-all-subject', subjectController.handleGetAllSubject);
+    router.post('/api/create-subject', subjectController.handleCreateSubject);
+    // router.put('/api/edit-courses', userController.handleEditUser);
+    router.delete('/api/delete-subject', subjectController.handleDeleteSubject);
+
 
     //rest api
     return app.use('/', router);

@@ -23,7 +23,7 @@ let handleUserLogin = (email, password) => {
             if (isExist) {
                 let user = await db.User.findOne({
                     where: { email: email },
-                    attributes: [`email`, `roleId`, `password`, `firstName`, `lastName`],
+                    attributes: [`email`, `roleId`, `password`, `firstName`, `lastName`, `avatar`],
                     raw: true
                 });
                 if (user) {
@@ -116,9 +116,12 @@ let createUser = (data) => {
                     firstName: data.firstName,
                     lastName: data.lastName,
                     address: data.address,
+                    avatar: data.avatar,
                     phone: data.phone,
                     gender: data.gender,
+                    position: data.position,
                     roleId: data.roleId,
+                    desc: data.desc,
                 })
                 resolve({
                     errorCode: 0,
@@ -157,7 +160,7 @@ let deleteUser = (userId) => {
 let updateUser = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.id) {
+            if (!data.id || !data.roleId || !data.position || !data.gender) {
                 resolve({
                     errorCode: 2,
                     errorMessage: 'Missing'
@@ -174,7 +177,10 @@ let updateUser = (data) => {
                 user.phone = data.phone;
                 // -----------
                 user.gender = data.gender;
-                // user.roleId = data.roleId;
+                user.roleId = data.roleId;
+                user.position = data.position;
+                user.avatar = data.avatar;
+                user.desc = data.desc;
                 // -----------
                 await user.save();
                 resolve({
