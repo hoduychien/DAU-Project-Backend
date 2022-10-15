@@ -85,7 +85,7 @@ let deleteCourse = (id) => {
     })
 }
 
-let updateCourse = (data) => {
+let updateCoursess = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (!data.id) {
@@ -94,39 +94,40 @@ let updateCourse = (data) => {
                     errorMessage: 'Missing'
                 })
             }
-            let course = await db.Course.findOne({
-                where: { id: data.id },
-                raw: false
-            })
-            if (course) {
-                course.name = data.name;
-                course.schedule = data.schedule;
-                course.desc = data.desc;
-                course.image = data.image;
-                // -----------
-                await course.save();
-                resolve({
-                    errorCode: 0,
-                    message: 'Update course success'
-                })
-            }
             else {
-                resolve({
-                    errorCode: 1,
-                    errorMessage: 'course not found'
+                let course = await db.Course.findOne({
+                    where: { id: data.id },
+                    raw: false
                 })
-            }
 
+                if (course) {
+                    course.name = data.name;
+                    course.desc = data.desc;
+                    course.schedule = data.schedule;
+                    course.image = data.image;
+
+                    await course.save();
+                    resolve({
+                        errorCode: 0,
+                        message: 'Update course success'
+                    })
+                }
+                else {
+                    resolve({
+                        errorCode: 1,
+                        errorMessage: 'course not found'
+                    })
+                }
+            }
         } catch (error) {
             reject(error);
         }
     })
 }
 
-
 module.exports = {
     createCourse: createCourse,
     getAllCourse: getAllCourse,
     deleteCourse: deleteCourse,
-    updateCourse: updateCourse
+    updateCoursess: updateCoursess
 }

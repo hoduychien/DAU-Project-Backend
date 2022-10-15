@@ -37,7 +37,7 @@ let handleDeleteCourse = async (req, res) => {
 
 let handleEditCourse = async (req, res) => {
     let data = req.body;
-    let message = await courseService.updateCourse(data);
+    let message = await courseService.updateCoursess(data);
     return res.status(200).json(message)
 }
 

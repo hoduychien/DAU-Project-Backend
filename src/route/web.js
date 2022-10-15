@@ -41,9 +41,16 @@ let initWebRoutes = (app) => {
     // subject
     router.get('/api/get-all-subject', subjectController.handleGetAllSubject);
     router.post('/api/create-subject', subjectController.handleCreateSubject);
-    // router.put('/api/edit-courses', userController.handleEditUser);
+    router.put('/api/edit-subject', subjectController.handleEditSubject);
     router.delete('/api/delete-subject', subjectController.handleDeleteSubject);
 
+    router.post('/api/save-info-subject', subjectController.handleSaveInfoSubject);
+
+    router.get('/api/get-detail-subject', subjectController.getDetailSubject);
+
+
+    // subject schedule
+    router.post('/api/create-subject-schedule', subjectController.handleCreateSubjectSchedule)
 
     //rest api
     return app.use('/', router);

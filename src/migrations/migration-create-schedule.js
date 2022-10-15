@@ -17,10 +17,13 @@ module.exports = {
             date: {
                 type: Sequelize.DATE
             },
+            month: {
+                type: Sequelize.DATE
+            },
             timeType: {
                 type: Sequelize.STRING
             },
-            classId: {
+            subjectId: {
                 type: Sequelize.INTEGER
             },
             createdAt: {
