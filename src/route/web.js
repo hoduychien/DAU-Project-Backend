@@ -51,6 +51,7 @@ let initWebRoutes = (app) => {
 
     // subject schedule
     router.post('/api/create-subject-schedule', subjectController.handleCreateSubjectSchedule)
+    router.get('/api/get-subject-schedule-by-month', subjectController.getCheduleByMonth)
 
     //rest api
     return app.use('/', router);

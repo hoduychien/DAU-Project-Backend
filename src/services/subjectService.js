@@ -288,15 +288,9 @@ let createSubjectShedule = (data) => {
                     }
                 )
 
-                if (existing && existing.length > 0) {
-                    existing = existing.map(item => {
-                        item.date = new Date(item.date).getTime();
-                        return item;
-                    })
-                }
 
                 let toCreate = _.differenceWith(schedule, existing, (a, b) => {
-                    return a.timeType === b.timeType && a.date === b.date
+                    return a.timeType === b.timeType && +a.date === +b.date
                 });
 
                 if (toCreate && toCreate.length > 0) {
@@ -322,6 +316,47 @@ let createSubjectShedule = (data) => {
     })
 }
 
+let getCheduleByMonth = (subjectId, month) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!subjectId || !month) {
+                resolve({
+                    errorCode: 1,
+                    errorMessage: "Missing"
+                })
+            } else {
+                let data = await db.Schedule.findAll({
+                    where: {
+                        subjectId: subjectId,
+                        month: month
+                    },
+                    include: [
+                        {
+                            model: db.Keyword,
+                            as: "timeTypeData",
+                            attributes: ['vi', 'en']
+                        }
+                    ],
+                    raw: true,
+                    nest: true
+                })
+                if (!data) {
+                    data = [];
+                }
+                else {
+                    resolve({
+                        errorCode: 0,
+                        data: data
+                    })
+                }
+
+            }
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
 
 module.exports = {
     createSubject: createSubject,
@@ -330,5 +365,6 @@ module.exports = {
     updateSubject: updateSubject,
     saveInfoSubject: saveInfoSubject,
     getDetailSubjectService: getDetailSubjectService,
-    createSubjectShedule: createSubjectShedule
+    createSubjectShedule: createSubjectShedule,
+    getCheduleByMonth: getCheduleByMonth
 }

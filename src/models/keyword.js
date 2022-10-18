@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             Keyword.hasMany(models.User, { foreignKey: 'position', as: 'positionData' })
             Keyword.hasMany(models.User, { foreignKey: 'gender', as: 'genderData' })
+            Keyword.hasMany(models.Schedule, { foreignKey: 'timeType', as: 'timeTypeData' })
         }
     };
     Keyword.init({
