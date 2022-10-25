@@ -149,9 +149,63 @@ let checkDetailSubject = (subjectId) => {
     })
 }
 
+let checkSubjectInfo = (subjectId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let subject = await db.Subject_info.findOne({
+                where: { subjectId: subjectId }
+            })
+            if (subject) {
+                resolve({
+                    checkDb: true,
+                    subjectInfoId: subject.id
+                });
+            } else {
+                resolve(false);
+            }
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
 let saveInfoSubject = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
+
+
+            let subjectInfo = await db.Subject_info.findOne({
+                where: { subjectId: data.subjectId },
+                raw: false
+            })
+            if (subjectInfo) {
+                subjectInfo.price = data.selectedPrice,
+                    subjectInfo.payment = data.selectedStudyTime,
+                    subjectInfo.studyTime = data.selectedPayment,
+                    subjectInfo.province = data.selectedProvince,
+                    subjectInfo.address = data.address,
+                    subjectInfo.notenote = data.note,
+                    await subjectInfo.save();
+                resolve({
+                    errorCode: 0,
+                    errorMessage: 'Update info success'
+                })
+            } else {
+                await db.Subject_info.create({
+                    subjectId: data.subjectId,
+                    price: data.selectedPrice,
+                    payment: data.selectedStudyTime,
+                    studyTime: data.selectedPayment,
+                    province: data.selectedProvince,
+                    address: data.address,
+                    notenote: data.note,
+                })
+                resolve({
+                    errorCode: 0,
+                    errorMessage: "Save done ~~~"
+                })
+            }
+
             let check = await checkDetailSubject(data.subjectId);
             if (check.checks === true) {
                 if (!data.subjectId || !data.contentCode || !data.contentText) {
@@ -162,8 +216,6 @@ let saveInfoSubject = (data) => {
                 }
 
                 else {
-                    console.log(check.detailId)
-
                     let subjectDetail = await db.Markdown.findOne({
                         where: { id: check.detailId },
                         raw: false
@@ -177,10 +229,9 @@ let saveInfoSubject = (data) => {
                         errorCode: 0,
                         errorMessage: 'Update success'
                     })
-
                 }
-            }
 
+            }
             else {
                 if (!data.subjectId || !data.contentCode || !data.contentText) {
                     resolve({
@@ -189,7 +240,6 @@ let saveInfoSubject = (data) => {
                     })
                 }
                 else {
-                    console.log("create");
                     await db.Markdown.create({
                         contentCode: data.contentCode,
                         contentText: data.contentText,
@@ -203,25 +253,9 @@ let saveInfoSubject = (data) => {
                 }
             }
 
-            // if (!data.subjectId || !data.contentCode || !data.contentText) {
-            //     resolve({
-            //         errorCode: 1,
-            //         errorMessage: "Mising"
-            //     })
-            // }
-            // else {
-            //     console.log("create");
-            //     await db.Markdown.create({
-            //         contentCode: data.contentCode,
-            //         contentText: data.contentText,
-            //         desc: data.desc,
-            //         subjectId: data.subjectId,
-            //     })
-            //     resolve({
-            //         errorCode: 0,
-            //         errorMessage: "Save done ~~~"
-            //     })
-            // }
+
+
+
 
 
         } catch (error) {
