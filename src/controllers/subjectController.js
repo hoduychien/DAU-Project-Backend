@@ -93,6 +93,32 @@ let getCheduleByMonth = async (req, res) => {
     }
 }
 
+let getExtraInfoSubject = async (req, res) => {
+    try {
+        let schedule = await subjectService.getExtraInfoSubject(req.query.subjectId);
+        return res.status(200).json(schedule);
+    } catch (error) {
+        console.log(error);
+        return res.status(200).json({
+            errorCode: -1,
+            errorMessage: "Server error !!!"
+        })
+    }
+}
+
+let getDetailSubjectForMoldal = async (req, res) => {
+    try {
+        let schedule = await subjectService.getDetailSubjectForMoldal(req.query.subjectId);
+        return res.status(200).json(schedule);
+    } catch (error) {
+        console.log(error);
+        return res.status(200).json({
+            errorCode: -1,
+            errorMessage: "Server error !!!"
+        })
+    }
+}
+
 module.exports = {
     handleCreateSubject: handleCreateSubject,
     handleGetAllSubject: handleGetAllSubject,
@@ -101,5 +127,7 @@ module.exports = {
     handleSaveInfoSubject: handleSaveInfoSubject,
     getDetailSubject: getDetailSubject,
     handleCreateSubjectSchedule: handleCreateSubjectSchedule,
-    getCheduleByMonth: getCheduleByMonth
+    getCheduleByMonth: getCheduleByMonth,
+    getExtraInfoSubject: getExtraInfoSubject,
+    getDetailSubjectForMoldal: getDetailSubjectForMoldal
 }

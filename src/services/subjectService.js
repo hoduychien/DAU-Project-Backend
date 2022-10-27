@@ -173,18 +173,17 @@ let saveInfoSubject = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
 
-
             let subjectInfo = await db.Subject_info.findOne({
                 where: { subjectId: data.subjectId },
                 raw: false
             })
             if (subjectInfo) {
                 subjectInfo.price = data.selectedPrice,
-                    subjectInfo.payment = data.selectedStudyTime,
-                    subjectInfo.studyTime = data.selectedPayment,
+                    subjectInfo.payment = data.selectedPayment,
+                    subjectInfo.studyTime = data.selectedStudyTime,
                     subjectInfo.province = data.selectedProvince,
                     subjectInfo.address = data.address,
-                    subjectInfo.notenote = data.note,
+                    subjectInfo.note = data.note,
                     await subjectInfo.save();
                 resolve({
                     errorCode: 0,
@@ -194,11 +193,11 @@ let saveInfoSubject = (data) => {
                 await db.Subject_info.create({
                     subjectId: data.subjectId,
                     price: data.selectedPrice,
-                    payment: data.selectedStudyTime,
-                    studyTime: data.selectedPayment,
+                    payment: data.selectedPayment,
+                    studyTime: data.selectedStudyTime,
                     province: data.selectedProvince,
                     address: data.address,
-                    notenote: data.note,
+                    note: data.note,
                 })
                 resolve({
                     errorCode: 0,
@@ -275,11 +274,39 @@ let getDetailSubjectService = (id) => {
             } else {
                 let data = await db.Subject.findOne({
                     where: { id: id },
-                    // attributes: {
-                    //     exclude: ['image']
-                    // },
                     include: [
-                        { model: db.Markdown, attributes: ['desc', 'contentCode', 'contentText'] }
+                        {
+                            model: db.Markdown,
+                            attributes: ['desc', 'contentCode', 'contentText']
+                        },
+                        {
+                            model: db.Subject_info,
+                            attributes: {
+                                exclude: ['id', 'subjectId']
+                            },
+                            include: [
+                                {
+                                    model: db.Keyword,
+                                    as: 'priceTypeData',
+                                    attributes: ['en', 'vi']
+                                },
+                                {
+                                    model: db.Keyword,
+                                    as: 'provinceTypeData',
+                                    attributes: ['en', 'vi']
+                                },
+                                {
+                                    model: db.Keyword,
+                                    as: 'paymentTypeData',
+                                    attributes: ['en', 'vi']
+                                },
+                                {
+                                    model: db.Keyword,
+                                    as: 'paymentTypeData',
+                                    attributes: ['en', 'vi']
+                                }
+                            ]
+                        }
                     ],
                     raw: true,
                     nest: true
@@ -391,6 +418,120 @@ let getCheduleByMonth = (subjectId, month) => {
     })
 }
 
+let getExtraInfoSubject = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!id) {
+                resolve({
+                    errorCode: 1,
+                    errorMessage: "Missing"
+                })
+            } else {
+                let data = await db.Subject_info.findOne({
+                    where: {
+                        subjectId: id
+                    },
+                    attributes: {
+                        exclude: ['id', 'subjectId']
+                    },
+                    include: [
+                        {
+                            model: db.Keyword,
+                            as: 'priceTypeData',
+                            attributes: ['en', 'vi']
+                        },
+                        {
+                            model: db.Keyword,
+                            as: 'provinceTypeData',
+                            attributes: ['en', 'vi']
+                        },
+                        {
+                            model: db.Keyword,
+                            as: 'paymentTypeData',
+                            attributes: ['en', 'vi']
+                        },
+                        {
+                            model: db.Keyword,
+                            as: 'studyTimeTypeData',
+                            attributes: ['en', 'vi']
+                        }
+                    ],
+                    raw: false,
+                    nest: true
+                })
+                if (!data) data = [];
+                resolve({
+                    errorCode: 0,
+                    data: data
+                })
+            }
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+let getDetailSubjectForMoldal = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!id) {
+                resolve({
+                    errorCode: 1,
+                    errorMessage: "Missing"
+                })
+            } else {
+                let data = await db.Subject.findOne({
+                    where: {
+                        id: id
+                    },
+                    attributes: {
+                        exclude: ['id']
+                    },
+                    include: [
+                        {
+                            model: db.Subject_info,
+                            attributes: {
+                                exclude: ['id', 'subjectId']
+                            },
+                            include: [
+                                {
+                                    model: db.Keyword,
+                                    as: 'priceTypeData',
+                                    attributes: ['en', 'vi']
+                                },
+                                {
+                                    model: db.Keyword,
+                                    as: 'provinceTypeData',
+                                    attributes: ['en', 'vi']
+                                },
+                                {
+                                    model: db.Keyword,
+                                    as: 'paymentTypeData',
+                                    attributes: ['en', 'vi']
+                                },
+                                {
+                                    model: db.Keyword,
+                                    as: 'studyTimeTypeData',
+                                    attributes: ['en', 'vi']
+                                }
+                            ]
+                        }
+                    ],
+                    raw: true,
+                    nest: true
+                })
+                if (!data) data = [];
+                resolve({
+                    errorCode: 0,
+                    data: data
+                })
+            }
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
 
 module.exports = {
     createSubject: createSubject,
@@ -400,5 +541,7 @@ module.exports = {
     saveInfoSubject: saveInfoSubject,
     getDetailSubjectService: getDetailSubjectService,
     createSubjectShedule: createSubjectShedule,
-    getCheduleByMonth: getCheduleByMonth
+    getCheduleByMonth: getCheduleByMonth,
+    getExtraInfoSubject: getExtraInfoSubject,
+    getDetailSubjectForMoldal: getDetailSubjectForMoldal
 }

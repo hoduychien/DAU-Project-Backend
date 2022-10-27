@@ -10,7 +10,11 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            // define association here
+            Subject_info.belongsTo(models.Subject, { foreignKey: 'subjectId' })
+            Subject_info.belongsTo(models.Keyword, { foreignKey: 'price', targetKey: 'keyMap', as: 'priceTypeData' })
+            Subject_info.belongsTo(models.Keyword, { foreignKey: 'province', targetKey: 'keyMap', as: 'provinceTypeData' })
+            Subject_info.belongsTo(models.Keyword, { foreignKey: 'payment', targetKey: 'keyMap', as: 'paymentTypeData' })
+            Subject_info.belongsTo(models.Keyword, { foreignKey: 'studyTime', targetKey: 'keyMap', as: 'studyTimeTypeData' })
         }
     };
     Subject_info.init({

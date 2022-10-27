@@ -11,14 +11,14 @@ module.exports = {
             statusId: {
                 type: Sequelize.STRING
             },
-            classId: {
+            subjectId: {
                 type: Sequelize.INTEGER
             },
             studentId: {
                 type: Sequelize.INTEGER
             },
             date: {
-                type: Sequelize.DATE
+                type: Sequelize.STRING
             },
             timeType: {
                 type: Sequelize.STRING

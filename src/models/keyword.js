@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
             Keyword.hasMany(models.User, { foreignKey: 'position', as: 'positionData' })
             Keyword.hasMany(models.User, { foreignKey: 'gender', as: 'genderData' })
             Keyword.hasMany(models.Schedule, { foreignKey: 'timeType', as: 'timeTypeData' })
+            Keyword.hasMany(models.Subject_info, { foreignKey: 'price', as: 'priceTypeData' })
+            Keyword.hasMany(models.Subject_info, { foreignKey: 'province', as: 'provinceTypeData' })
+            Keyword.hasMany(models.Subject_info, { foreignKey: 'payment', as: 'paymentTypeData' })
+            Keyword.hasMany(models.Subject_info, { foreignKey: 'studyTime', as: 'studyTimeTypeData' })
         }
     };
     Keyword.init({

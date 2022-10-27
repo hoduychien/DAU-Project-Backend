@@ -3,7 +3,8 @@ import homeController from '../controllers/homeController';
 import userController from '../controllers/userController';
 import lectureController from '../controllers/lecturerController';
 import courseController from '../controllers/courseController';
-import subjectController from '../controllers/subjectController'
+import subjectController from '../controllers/subjectController';
+import studentController from '../controllers/studentController';
 
 
 let router = express.Router();
@@ -43,15 +44,20 @@ let initWebRoutes = (app) => {
     router.post('/api/create-subject', subjectController.handleCreateSubject);
     router.put('/api/edit-subject', subjectController.handleEditSubject);
     router.delete('/api/delete-subject', subjectController.handleDeleteSubject);
-
     router.post('/api/save-info-subject', subjectController.handleSaveInfoSubject);
-
     router.get('/api/get-detail-subject', subjectController.getDetailSubject);
+    router.get('/api/get-extra-info-subject', subjectController.getExtraInfoSubject);
 
+    router.get('/api/get-detail-subject-for-modal', subjectController.getDetailSubjectForMoldal);
 
     // subject schedule
     router.post('/api/create-subject-schedule', subjectController.handleCreateSubjectSchedule)
     router.get('/api/get-subject-schedule-by-month', subjectController.getCheduleByMonth)
+
+
+    // student register subject 
+    router.post('/api/student-register-subject', studentController.studentRegisterSubject)
+
 
     //rest api
     return app.use('/', router);

@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             Subject.hasOne(models.Markdown, { foreignKey: 'subjectId' })
+            Subject.hasOne(models.Subject_info, { foreignKey: 'subjectId' })
         }
     };
     Subject.init({
