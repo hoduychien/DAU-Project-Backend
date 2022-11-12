@@ -13,6 +13,20 @@ let studentRegisterSubject = async (req, res) => {
     }
 }
 
+let verifyRegisterSubjects = async (req, res) => {
+    try {
+        let message = await studentService.verifyRegisterSubjects(req.body);
+        return res.status(200).json(message);
+    } catch (error) {
+        console.log(error);
+        return res.status(200).json({
+            errorCode: -1,
+            errorMessage: "Server error !!!"
+        })
+    }
+}
+
 module.exports = {
-    studentRegisterSubject: studentRegisterSubject
+    studentRegisterSubject: studentRegisterSubject,
+    verifyRegisterSubjects: verifyRegisterSubjects
 }

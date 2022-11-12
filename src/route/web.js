@@ -57,7 +57,7 @@ let initWebRoutes = (app) => {
 
     // student register subject 
     router.post('/api/student-register-subject', studentController.studentRegisterSubject)
-
+    router.post('/api/verify-register-subject', studentController.verifyRegisterSubjects)
 
     //rest api
     return app.use('/', router);
