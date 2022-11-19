@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     };
     Subject_info.init({
         subjectId: DataTypes.INTEGER,
+        courseId: DataTypes.INTEGER,
         price: DataTypes.STRING,
         payment: DataTypes.STRING,
         studyTime: DataTypes.STRING,

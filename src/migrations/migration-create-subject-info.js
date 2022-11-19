@@ -12,6 +12,9 @@ module.exports = {
                 type: Sequelize.INTEGER,
                 allowNull: false,
             },
+            courseId: {
+                type: Sequelize.INTEGER,
+            },
 
             price: {
                 type: Sequelize.STRING,

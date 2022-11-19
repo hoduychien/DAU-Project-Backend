@@ -94,12 +94,12 @@ let verifyRegisterSubjects = (data) => {
                     await res.save();
                     resolve({
                         errorCode: 0,
-                        errorMessage: 'Update success ~'
+                        errorMessage: 'Xác nhận đăng ký khoá học thành công'
                     })
                 } else {
                     resolve({
                         errorCode: -2,
-                        errorMessage: "Has been activated or already exists !"
+                        errorMessage: "Khoá học đã được xác nhận hoặc không tồn tại !"
                     })
                 }
             }

@@ -184,7 +184,8 @@ let saveInfoSubject = (data) => {
                     subjectInfo.province = data.selectedProvince,
                     subjectInfo.address = data.address,
                     subjectInfo.note = data.note,
-                    await subjectInfo.save();
+                    subjectInfo.courseId = data.courseId
+                await subjectInfo.save();
                 resolve({
                     errorCode: 0,
                     errorMessage: 'Update info success'
@@ -198,6 +199,7 @@ let saveInfoSubject = (data) => {
                     province: data.selectedProvince,
                     address: data.address,
                     note: data.note,
+                    courseId: data.courseId
                 })
                 resolve({
                     errorCode: 0,
