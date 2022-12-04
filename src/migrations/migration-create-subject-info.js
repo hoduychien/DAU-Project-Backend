@@ -15,6 +15,9 @@ module.exports = {
             courseId: {
                 type: Sequelize.INTEGER,
             },
+            lecturersId: {
+                type: Sequelize.INTEGER,
+            },
 
             price: {
                 type: Sequelize.STRING,

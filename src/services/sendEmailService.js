@@ -1,27 +1,71 @@
-require('dotenv').config();
-import nodemailer from 'nodemailer'
+require("dotenv").config();
+import nodemailer from "nodemailer";
 
+let sentConfirmEmail = async (data) => {
+  let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+      user: process.env.EMAIL_ADDRESS,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  let info = await transporter.sendMail({
+    from: '"CyberLearn " <cyberlearn@gmail.com>',
+    to: data.studentEmail,
+    subject: `[Cyberlearn] Phản hồi từ Cyberlearn`,
+    text: ``,
+    html: `
+    <p>${data.studentName} thân mến, </p>
+
+        <p>Cyberlearn xác nhận bạn đã đăng ký thành công khóa học tại cyberlearn</p>
+
+        <p>Thông tin nhập học được đính kèm file ở dưới.</p>
+        <p>Một lần nữa Cyberlearn rất vui mừng vì được đồng hành và hỗ trợ bạn trong thời gian sắp tới. Chúc bạn sẽ có thời gian học tập và những trải nghiệm tuyệt vời nhất cùng Cyberlearn.</p>
+
+        <br/>
+        <p>Trân trọng!</p>
+        <p>Cyberlearn</p>
+        <br />
+        --
+
+        <b>T: "(84)" ${data.lecturersPhone} │ E: ${data.lecturersEmail}</b>
+
+        <br/>
+    
+    `,
+    attachments: [
+      {
+        filename: `Đơn đăng ký ${data.firstName}.png`,
+        content: data.file.split("base64,")[1],
+        encoding: "base64",
+      },
+    ],
+  });
+};
 
 let sendEmail = async (data) => {
-    let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false,
-        auth: {
-            user: process.env.EMAIL_ADDRESS,
-            pass: process.env.EMAIL_PASS,
-        },
-    });
+  let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+      user: process.env.EMAIL_ADDRESS,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
 
-    let info = await transporter.sendMail({
-        from: '"CyberLearn " <cyberlearn@gmail.com>',
-        to: data.studentEmail,
-        subject: `[Cyberlearn] Thông báo đăng ký thành công khoá học: "${data.subjectName}"`,
-        text: ``,
-        html: `
+  let info = await transporter.sendMail({
+    from: '"CyberLearn " <cyberlearn@gmail.com>',
+    to: data.studentEmail,
+    subject: `[Cyberlearn] Thông báo đăng ký xác nhận đăng ký khoá học: "${data.subjectName}"`,
+    text: ``,
+    html: `
         <p>${data.studentName} thân mến, </p>
 
-        <p>Cyberlearn xác nhận bạn đã đăng ký thành công khóa học : <b>
+        <p>Cyberlearn xác nhận bạn đã đăng ký khóa học : <b>
         "${data.subjectName}"
         </b></p>
 
@@ -44,8 +88,7 @@ let sendEmail = async (data) => {
                 Học phí: <b>${data.price}</b>
             </li>
         </ul>
-        <p>Thông tin nhập học được đính kèm file ở dưới.</p>
-        <p>Một lần nữa Cyberlearn rất vui mừng vì được đồng hành và hỗ trợ bạn trong thời gian sắp tới. Chúc bạn sẽ có thời gian học tập và những trải nghiệm tuyệt vời nhất cùng Cyberlearn.</p>
+        
 
         <br/>
         <p>Trân trọng!</p>
@@ -64,9 +107,10 @@ let sendEmail = async (data) => {
         </p>
 
         `,
-    });
-}
+  });
+};
 
 module.exports = {
-    sendEmail: sendEmail
-}
+  sendEmail: sendEmail,
+  sentConfirmEmail: sentConfirmEmail,
+};
